@@ -866,6 +866,23 @@ a {
 /* Vibecoding Highlight Section */
 .vibecoding-section {
   position: relative;
+  padding: 100px 0;
+}
+
+@media (min-width: 768px) {
+  .vibecoding-section {
+    padding: 140px 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .vibecoding-section {
+    padding: 160px 0;
+  }
+  .vibecoding-section .grid-2 {
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 80px;
+  }
 }
 
 .vibecoding-text .section-header {
@@ -910,7 +927,7 @@ a {
 }
 
 .vibecoding-visual .vibe-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-8px) scale(1.025);
   box-shadow: var(--shadow-glow), var(--shadow-lg);
 }
 
@@ -1678,4 +1695,69 @@ a {
 
 .vibecoding-split:hover .preview-image {
   transform: scale(1.02);
+}
+
+/* Lightbox Modal styles */
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding: 40px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(7, 12, 25, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  align-items: center;
+  justify-content: center;
+}
+
+.lightbox.active {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-content {
+  margin: auto;
+  display: block;
+  max-width: 90%;
+  max-height: 85vh;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+  transform: scale(0.95);
+  transition: transform var(--transition-normal);
+  object-fit: contain;
+}
+
+.lightbox.active .lightbox-content {
+  transform: scale(1);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 30px;
+  color: #f1f5f9;
+  font-size: 36px;
+  font-weight: bold;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  cursor: pointer;
+  z-index: 1001;
+  line-height: 1;
+}
+
+.lightbox-close:hover {
+  color: var(--color-accent);
+  transform: scale(1.1);
+}
+
+/* Make the vibecoding image trigger look clickable */
+.vibecoding-visual .vibe-card {
+  cursor: pointer;
 }

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initEnrollmentForm();
   initEducationToggle();
+  initLightbox();
 });
 
 // Sticky Header behavior
@@ -276,4 +277,49 @@ function initEducationToggle() {
 
   setupToggle('hero-user-education', 'hero-education-area-group', 'hero-user-education-area');
   setupToggle('user-education', 'education-area-group', 'user-education-area');
+}
+
+// Lightbox for Vibecoding screenshot
+function initLightbox() {
+  const lightbox = document.getElementById('image-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const closeBtn = document.querySelector('.lightbox-close');
+  const triggerCard = document.querySelector('.vibecoding-visual .vibe-card');
+
+  if (!lightbox || !lightboxImg || !triggerCard) return;
+
+  const openLightbox = () => {
+    const img = triggerCard.querySelector('img');
+    if (!img) return;
+    lightboxImg.src = img.src;
+    lightbox.style.display = 'flex';
+    // Force reflow
+    lightbox.offsetHeight;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Stop page scroll
+  };
+
+  const closeLightbox = () => {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = ''; // Restore page scroll
+    setTimeout(() => {
+      if (!lightbox.classList.contains('active')) {
+        lightbox.style.display = 'none';
+      }
+    }, 300); // Match transition speed
+  };
+
+  triggerCard.addEventListener('click', openLightbox);
+  
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox || e.target === closeBtn) {
+      closeLightbox();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+      closeLightbox();
+    }
+  });
 }
