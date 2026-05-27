@@ -422,6 +422,10 @@ a {
 
 /* Hero Section */
 .hero-section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
   padding-top: 100px;
   padding-bottom: 40px;
   position: relative;
@@ -1211,7 +1215,8 @@ a {
   color: var(--color-text-light);
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   background-color: rgba(7, 12, 25, 0.5);
   border: 1px solid var(--color-border-dark);
   border-radius: var(--radius-sm);
@@ -1220,13 +1225,36 @@ a {
   font-family: var(--font-body);
   font-size: 0.95rem;
   transition: all var(--transition-fast);
+  width: 100%;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
   outline: none;
   border-color: var(--color-accent);
   box-shadow: 0 0 10px rgba(93, 224, 230, 0.15);
   background-color: rgba(7, 12, 25, 0.7);
+}
+
+.form-group select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235de0e6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+.form-group select option {
+  background-color: #0f172a;
+  color: #fff;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .btn-glow:hover {

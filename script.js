@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initFaqAccordion();
   initScrollReveal();
   initEnrollmentForm();
+  initEducationToggle();
 });
 
 // Sticky Header behavior
@@ -249,3 +250,30 @@ customStyle.textContent = `
   }
 `;
 document.head.appendChild(customStyle);
+
+// Toggle education area field based on degree select
+function initEducationToggle() {
+  const setupToggle = (selectId, groupId, inputId) => {
+    const selectEl = document.getElementById(selectId);
+    const groupEl = document.getElementById(groupId);
+    const inputEl = document.getElementById(inputId);
+
+    if (!selectEl || !groupEl) return;
+
+    selectEl.addEventListener('change', () => {
+      if (selectEl.value === 'sim') {
+        groupEl.classList.remove('hidden');
+        if (inputEl) inputEl.setAttribute('required', 'required');
+      } else {
+        groupEl.classList.add('hidden');
+        if (inputEl) {
+          inputEl.removeAttribute('required');
+          inputEl.value = ''; // Clean field
+        }
+      }
+    });
+  };
+
+  setupToggle('hero-user-education', 'hero-education-area-group', 'hero-user-education-area');
+  setupToggle('user-education', 'education-area-group', 'user-education-area');
+}
