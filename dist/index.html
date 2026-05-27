@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Domine o desenvolvimento de WebGIS e crie geoportais profissionais que valem dinheiro no mercado. Aprenda com o Diretor Pedagógico da Ambiental Pro.">
+  <meta name="keywords" content="WebGIS, Geoprocessamento, QGIS, Cartografia, Geotecnologias, Programação, Mapas Interativos, Ambiental Pro">
+  <meta name="author" content="Ambiental Pro">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://curso.ambientalpro.com.br/webgis">
+  <meta property="og:title" content="Curso Livre de WebGIS — Ambiental Pro">
+  <meta property="og:description" content="Aprenda a construir e publicar aplicações de mapas interativos do absoluto zero ao mercado real. Método prático 100% focado em projetos reais.">
+  <meta property="og:image" content="/webgis-mockup.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:title" content="Curso Livre de WebGIS — Ambiental Pro">
+  <meta property="twitter:description" content="Aprenda a construir e publicar aplicações de mapas interativos do absoluto zero ao mercado real. Método prático 100% focado em projetos reais.">
+  <meta property="twitter:image" content="/webgis-mockup.png">
+
+  <title>Curso de WebGIS Prático — Do Zero ao Portal Publicado | Ambiental Pro</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script type="module" crossorigin src="/assets/index-CxPX-owX.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-BDplLA9G.css">
+</head>
+<body>
+
+  <!-- Floating Glow Effect Backgrounds -->
+  <div class="glow-bg-radial primary-glow"></div>
+  <div class="glow-bg-radial accent-glow"></div>
+
+  <!-- Header Section -->
+  <header id="main-header" class="site-header">
+    <div class="container header-container">
+      <div class="logo-wrapper">
+        <img src="/logo.png" alt="Logo Ambiental Pro" class="site-logo">
+      </div>
+      <nav class="nav-menu" id="site-nav">
+        <ul>
+          <li><a href="#metodo" class="nav-link">O Método</a></li>
+          <li><a href="#cronograma" class="nav-link">Conteúdo</a></li>
+          <li><a href="#vibecoding" class="nav-link">Vibecoding</a></li>
+          <li><a href="#mentor" class="nav-link">O Instrutor</a></li>
+          <li><a href="#faq" class="nav-link">Dúvidas</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta">
+        <a href="#matricula" class="btn btn-secondary-outline btn-sm" id="header-cta-btn">Garantir Vaga</a>
+      </div>
+      <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Abrir Menu">
+        <i data-lucide="menu"></i>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="container hero-container">
+        <div class="hero-content reveal">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text">Inscrições Abertas — Curso Livre Prático</span>
+          </div>
+          <h1 class="hero-title">
+            Domine o desenvolvimento de <span class="gradient-text">WebGIS</span> e crie portais de mapas profissionais.
+          </h1>
+          <p class="hero-subtitle">
+            Aprenda a estruturar dados geográficos, programar mapas interativos do zero e publicar geoportais reais que valem dinheiro no mercado. Método 100% prático e direto ao ponto.
+          </p>
+          <div class="hero-actions">
+            <a href="#metodo" class="btn btn-secondary-outline btn-lg">
+              Conhecer o método <i data-lucide="chevron-down"></i>
+            </a>
+          </div>
+          <div class="hero-social-proof">
+            <div class="avatars-group">
+              <span class="avatar-placeholder">80k+</span>
+            </div>
+            <p class="social-proof-text">Junte-se a mais de <strong>80.000 profissionais</strong> treinados pela Ambiental Pro.</p>
+          </div>
+        </div>
+        
+        <div class="hero-visual reveal delay-1">
+          <div class="registration-card glassmorphism">
+            <div class="card-glow-top"></div>
+            <div class="text-center" style="margin-bottom: 20px;">
+              <span class="price-badge">Vagas Limitadas</span>
+              <h3 class="card-title" style="font-size: 1.5rem; margin-bottom: 8px;">Garanta sua Vaga</h3>
+              <p class="card-subtitle" style="font-size: 0.85rem; margin-bottom: 0;">Preencha seus dados para receber o acesso imediato.</p>
+            </div>
+            <form id="hero-enrollment-form" class="registration-form">
+              <div class="form-group">
+                <label for="hero-user-name">Nome Completo</label>
+                <input type="text" id="hero-user-name" name="name" placeholder="Digite seu nome completo" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="hero-user-email">E-mail Principal</label>
+                <input type="email" id="hero-user-email" name="email" placeholder="Digite seu melhor e-mail" required>
+              </div>
+
+              <div class="form-group">
+                <label for="hero-user-whatsapp">WhatsApp (com DDD)</label>
+                <input type="tel" id="hero-user-whatsapp" name="whatsapp" placeholder="(99) 99999-9999" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg btn-glow" id="hero-submit-enroll-btn">
+                Garantir Vaga Agora <i data-lucide="check"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pain Points / Comparison Section -->
+    <section id="metodo" class="section-padding comparison-section bg-light-layer">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <h2 class="section-title">O Mercado de Trabalho exige <span class="gradient-text">Soluções Reais</span></h2>
+          <p class="section-desc">
+            A faculdade enche você de teoria inútil, mas na hora de resolver um problema real de engenharia ou planejamento, você congela? Compare as duas abordagens:
+          </p>
+        </div>
+
+        <div class="comparison-grid reveal delay-1">
+          <!-- Traditional way -->
+          <div class="comparison-card traditional">
+            <div class="card-icon-wrapper red">
+              <i data-lucide="x-circle"></i>
+            </div>
+            <h3>O Ensino Tradicional</h3>
+            <p class="card-sub">Manuais densos e decoreba acadêmica</p>
+            <ul class="comparison-list">
+              <li>
+                <i data-lucide="minus" class="list-icon"></i>
+                Anos estudando conceitos históricos sem aplicação prática imediata.
+              </li>
+              <li>
+                <i data-lucide="minus" class="list-icon"></i>
+                Tutoriais desatualizados e travamentos constantes em projetos simples.
+              </li>
+              <li>
+                <i data-lucide="minus" class="list-icon"></i>
+                Frustração ao tentar integrar bancos de dados com mapas estáticos.
+              </li>
+              <li>
+                <i data-lucide="minus" class="list-icon"></i>
+                Salários estagnados por não entregar o que as empresas de fato buscam.
+              </li>
+            </ul>
+          </div>
+
+          <!-- Ambiental Pro way -->
+          <div class="comparison-card premium-card active-border">
+            <div class="card-icon-wrapper cyan">
+              <i data-lucide="check-circle-2"></i>
+            </div>
+            <h3>Método Ambiental Pro</h3>
+            <p class="card-sub text-cyan">Prático, rápido e focado em resultados</p>
+            <ul class="comparison-list">
+              <li>
+                <i data-lucide="check" class="list-icon text-cyan"></i>
+                Foco 100% na resolução de problemas reais de municípios e empresas.
+              </li>
+              <li>
+                <i data-lucide="check" class="list-icon text-cyan"></i>
+                Pegar dados brutos, aplicar a geotecnologia correta e gerar valor rápido.
+              </li>
+              <li>
+                <i data-lucide="check" class="list-icon text-cyan"></i>
+                Uso de metodologias modernas como Vibecoding para codificação ágil.
+              </li>
+              <li>
+                <i data-lucide="check" class="list-icon text-cyan"></i>
+                Destaque no mercado e geoportais prontos para seu portfólio profissional.
+              </li>
+            </ul>
+            <div class="glow-accent-border"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Course Curriculum Section -->
+    <section id="cronograma" class="section-padding curriculum-section bg-dark-layer">
+      <div class="container">
+        <div class="section-header text-center reveal">
+          <h2 class="section-title">O que você vai <span class="gradient-text">Construir e Aprender</span></h2>
+          <p class="section-desc">
+            Uma jornada estruturada em 6 módulos lógicos para levar você do absoluto zero ao desenvolvimento e publicação de uma aplicação de WebGIS profissional.
+          </p>
+        </div>
+
+        <div class="curriculum-accordion-list reveal delay-1">
+          
+          <!-- Module 1 -->
+          <div class="accordion-item" id="module-1">
+            <button class="accordion-toggle" aria-expanded="false" aria-controls="content-1">
+              <span class="module-number">Parte 1</span>
+              <span class="module-title">Introdução: Conhecendo Geoportais</span>
+              <span class="accordion-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="accordion-content" id="content-1" aria-hidden="true">
+              <div class="accordion-body">
+                <p>Nesta parte inicial, você entenderá o ecossistema do WebGIS. Vamos analisar geoportais reais de sucesso em prefeituras e órgãos públicos, entender quais são as tecnologias envolvidas e analisar o mercado de trabalho, descobrindo o valor financeiro de dominar esta tecnologia.</p>
+                <div class="module-highlights">
+                  <span><i data-lucide="eye"></i> Estudo de casos reais</span>
+                  <span><i data-lucide="trending-up"></i> Análise de mercado</span>
+                  <span><i data-lucide="layers"></i> Estrutura do WebGIS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 2 -->
+          <div class="accordion-item" id="module-2">
+            <button class="accordion-toggle" aria-expanded="false" aria-controls="content-2">
+              <span class="module-number">Parte 2</span>
+              <span class="module-title">“Organizando a casa” — Preparação para o Web GIS</span>
+              <span class="accordion-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="accordion-content" id="content-2" aria-hidden="true">
+              <div class="accordion-body">
+                <p>Preparar os dados espaciais de forma adequada é o que separa profissionais de amadores. Você aprenderá como otimizar arquivos shapefiles, gerar arquivos GeoJSON compactos, configurar sistemas de coordenadas e garantir que a aplicação carregue em milissegundos.</p>
+                <div class="module-highlights">
+                  <span><i data-lucide="database"></i> Otimização GeoJSON</span>
+                  <span><i data-lucide="globe-2"></i> Datum e projeções</span>
+                  <span><i data-lucide="zap"></i> Performance e limpeza</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 3 -->
+          <div class="accordion-item" id="module-3">
+            <button class="accordion-toggle" aria-expanded="false" aria-controls="content-3">
+              <span class="module-number">Parte 3</span>
+              <span class="module-title">O que é Vibecoding?</span>
+              <span class="accordion-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="accordion-content" id="content-3" aria-hidden="true">
+              <div class="accordion-body">
+                <p>Descubra a revolução do desenvolvimento de software. Aprenda a programar de forma fluida e altamente produtiva, utilizando Inteligência Artificial como sua copiloto. Foque na lógica espacial e na experiência do usuário, enquanto as ferramentas geram as estruturas de código necessárias com rapidez surpreendente.</p>
+                <div class="module-highlights">
+                  <span><i data-lucide="sparkles"></i> AI-assisted Coding</span>
+                  <span><i data-lucide="code-2"></i> Produtividade 10x</span>
+                  <span><i data-lucide="smile"></i> Foco no fluxo criativo</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 4 -->
+          <div class="accordion-item" id="module-4">
+            <button class="accordion-toggle" aria-expanded="false" aria-controls="content-4">
+              <span class="module-number">Parte 4</span>
+              <span class="module-title">Construindo o WebGIS — Parte 1</span>
+              <span class="accordion-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="accordion-content" id="content-4" aria-hidden="true">
+              <div class="accordion-body">
+                <p>Hora de programar! Vamos iniciar a construção do nosso geoportal. Você aprenderá a inicializar o mapa dinâmico no navegador, alternar entre diferentes camadas de fundo (satélite, ruas, terreno) e adicionar marcadores georreferenciados interativos que abrem informações adicionais ao clique.</p>
+                <div class="module-highlights">
+                  <span><i data-lucide="map"></i> Mapas interativos</span>
+                  <span><i data-lucide="layers-3"></i> Camadas e Leaflet</span>
+                  <span><i data-lucide="map-pin"></i> Marcadores dinâmicos</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 5 -->
+          <div class="accordion-item" id="module-5">
+            <button class="accordion-toggle" aria-expanded="false" aria-controls="content-5">
+              <span class="module-number">Parte 5</span>
+              <span class="module-title">Construindo o WebGIS — Parte 2</span>
+              <span class="accordion-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="accordion-content" id="content-5" aria-hidden="true">
+              <div class="accordion-body">
+                <p>Avançando na interatividade da nossa aplicação. Vamos criar filtros avançados de pesquisa de atributos espaciais, construir painéis laterais modernos (SaaS layout) e integrar gráficos estatísticos em tempo real que mudam dinamicamente dependendo da área visualizada no mapa.</p>
+                <div class="module-highlights">
+                  <span><i data-lucide="bar-chart-3"></i> Gráficos integrados</span>
+                  <span><i data-lucide="filter"></i> Consultas espaciais</span>
+                  <span><i data-lucide="layout-template"></i> Dashboard moderno</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Module 6 -->
+          <div class="accordion-item" id="module-6">
+            <button class="accordion-toggle" aria-expanded="false" aria-controls="content-6">
+              <span class="module-number">Parte 6</span>
+              <span class="module-title">Publicando o WebGIS</span>
+              <span class="accordion-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="accordion-content" id="content-6" aria-hidden="true">
+              <div class="accordion-body">
+                <p>Um sistema só tem valor se as pessoas conseguirem usá-lo. Neste módulo final, você aprenderá a colocar sua aplicação de WebGIS online, de forma totalmente gratuita e segura. Configure o servidor de hospedagem, otimize os scripts e gere um link oficial compartilhável para clientes e prefeituras.</p>
+                <div class="module-highlights">
+                  <span><i data-lucide="rocket"></i> Deploy gratuito</span>
+                  <span><i data-lucide="globe"></i> Link compartilhável</span>
+                  <span><i data-lucide="shield-check"></i> SSL e segurança</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Vibecoding Highlight Section -->
+    <section id="vibecoding" class="section-padding vibecoding-section bg-light-layer">
+      <div class="container grid-2">
+        <div class="vibecoding-text reveal">
+          <div class="section-header">
+            <div class="badge badge-accent">
+              <span class="badge-text">O Segredo da Velocidade</span>
+            </div>
+            <h2 class="section-title">O que é o <span class="gradient-text">Vibecoding</span>?</h2>
+          </div>
+          <p class="vibecoding-body-text">
+            Trata-se de focar 100% na <strong>estratégia, design de soluções e conceitos espaciais</strong>, enquanto você pilota inteligências artificiais geradoras de código para executar o trabalho repetitivo e pesado de codificação.
+          </p>
+          <div class="features-checklist">
+            <div class="checklist-item">
+              <i data-lucide="check" class="check-icon"></i>
+              <span>Foco total na lógica do mapa e na resolução de problemas do cliente</span>
+            </div>
+            <div class="checklist-item">
+              <i data-lucide="check" class="check-icon"></i>
+              <span>Criação de código rápido sem medo de errar a sintaxe de JavaScript</span>
+            </div>
+            <div class="checklist-item">
+              <i data-lucide="check" class="check-icon"></i>
+              <span>Desenvolva projetos complexos na velocidade da sua mente</span>
+            </div>
+          </div>
+        </div>
+        <div class="vibecoding-visual reveal delay-1">
+          <div class="vibe-card glassmorphism">
+            <img src="/vibecoding-screenshot.png" alt="Processo de Vibecoding" style="width: 100%; display: block; border-radius: inherit;">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Instructor Section -->
+    <section id="mentor" class="section-padding instructor-section bg-dark-layer">
+      <div class="container grid-2">
+        <div class="instructor-image-wrapper reveal">
+          <div class="photo-glow-border">
+            <img src="/foto-henrique.jpg" alt="Henrique — Diretor Pedagógico da Ambiental Pro" class="instructor-photo">
+            <div class="floating-accent-box">
+              <span class="floating-number">80k+</span>
+              <span class="floating-label">Alunos Treinados</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="instructor-text reveal delay-1">
+          <div class="badge badge-primary">
+            <span class="badge-text">Aprenda com quem faz</span>
+          </div>
+          <h2 class="instructor-title">APRENDA DIRETAMENTE COM O DIRETOR PEDAGÓGICO DA AMBIENTAL PRO</h2>
+          
+          <div class="instructor-desc">
+            <p>
+              Henrique percebeu que o mercado está cheio de profissionais que passam anos na faculdade, mas congelam diante de um projeto real. Viu de perto a frustração de quem tenta decorar manuais, mas continua com salários estagnados por não saber resolver os problemas práticos que as empresas e municípios realmente enfrentam.
+            </p>
+            <p>
+              Com base em sua vivência na Universidade de Tecnologia de Sydney (Austrália), adaptou para o Brasil um método focado 100% na resolução de problemas reais. Nada de decoreba acadêmica inútil: o foco é pegar o dado bruto, aplicar a geotecnologia correta e entregar um resultado que vale dinheiro no mercado.
+            </p>
+          </div>
+
+          <div class="instructor-bullets">
+            <div class="bullet-card glassmorphism">
+              <div class="bullet-icon-wrapper">
+                <i data-lucide="award"></i>
+              </div>
+              <p>Sócio fundador da Ambiental Pro.</p>
+            </div>
+            
+            <div class="bullet-card glassmorphism">
+              <div class="bullet-icon-wrapper">
+                <i data-lucide="users"></i>
+              </div>
+              <p>Treinou mais de 80.000 pessoas nos últimos 7 anos.</p>
+            </div>
+            
+            <div class="bullet-card glassmorphism">
+              <div class="bullet-icon-wrapper">
+                <i data-lucide="star"></i>
+              </div>
+              <p>Estruturou formações chanceladas com nota máxima (5) no MEC.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing / Registration Box -->
+    <section id="matricula" class="section-padding registration-section bg-light-layer">
+      <div class="container max-w-md">
+        <div class="registration-card glassmorphism reveal">
+          <div class="card-glow-top"></div>
+          <div class="text-center">
+            <span class="price-badge">Vagas Limitadas</span>
+            <h2 class="card-title">Inicie sua Jornada WebGIS Hoje</h2>
+            <p class="card-subtitle">Inscreva-se e garanta seu acesso ao curso livre prático com certificação inclusa.</p>
+          </div>
+
+          <div class="benefits-summary" style="margin-top: 24px;">
+            <div class="benefit-item">
+              <i data-lucide="check-check"></i>
+              <span>6 aulas práticas completas</span>
+            </div>
+            <div class="benefit-item">
+              <i data-lucide="check-check"></i>
+              <span>Códigos fontes disponíveis</span>
+            </div>
+            <div class="benefit-item">
+              <i data-lucide="check-check"></i>
+              <span>Suporte da Ambiental Pro</span>
+            </div>
+            <div class="benefit-item">
+              <i data-lucide="check-check"></i>
+              <span>Certificado de conclusão incluso</span>
+            </div>
+          </div>
+
+          <form id="enrollment-form" class="registration-form">
+            <div class="form-group">
+              <label for="user-name">Nome Completo</label>
+              <input type="text" id="user-name" name="name" placeholder="Digite seu nome completo" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="user-email">E-mail Principal</label>
+              <input type="email" id="user-email" name="email" placeholder="Digite seu melhor e-mail" required>
+            </div>
+
+            <div class="form-group">
+              <label for="user-whatsapp">WhatsApp (com DDD)</label>
+              <input type="tel" id="user-whatsapp" name="whatsapp" placeholder="(99) 99999-9999" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg btn-glow" id="submit-enroll-btn">
+              Quero Garantir Minha Inscrição <i data-lucide="check"></i>
+            </button>
+          </form>
+
+          <p class="security-text">
+            <i data-lucide="shield-check"></i> Seus dados estão protegidos sob a LGPD.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section-padding faq-section bg-dark-layer">
+      <div class="container max-w-lg">
+        <div class="section-header text-center reveal">
+          <h2 class="section-title">Perguntas <span class="gradient-text">Frequentes</span></h2>
+          <p class="section-desc">Dúvidas comuns sobre o funcionamento do curso livre de WebGIS</p>
+        </div>
+
+        <div class="faq-accordion-list reveal delay-1">
+          
+          <div class="faq-item">
+            <button class="faq-toggle" aria-expanded="false" aria-controls="faq-content-1">
+              <span>Preciso saber programar para fazer o curso?</span>
+              <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="faq-content" id="faq-content-1" aria-hidden="true">
+              <div class="faq-body">
+                <p>Não! O curso foi planejado do absoluto zero. Na Parte 3 ensinamos o conceito de Vibecoding, que permite que você utilize assistentes inteligentes de IA para escrever a estrutura de código enquanto você foca apenas na lógica do mapa e no valor para o cliente.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" aria-expanded="false" aria-controls="faq-content-2">
+              <span>O curso oferece certificado?</span>
+              <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="faq-content" id="faq-content-2" aria-hidden="true">
+              <div class="faq-body">
+                <p>Sim! Ao concluir todas as aulas e construir sua aplicação de WebGIS, você poderá emitir o certificado de conclusão livre, assinado pela equipe pedagógica da Ambiental Pro.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" aria-expanded="false" aria-controls="faq-content-3">
+              <span>Quanto tempo dura o curso e quando começam as aulas?</span>
+              <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="faq-content" id="faq-content-3" aria-hidden="true">
+              <div class="faq-body">
+                <p>As aulas são gravadas e liberadas na nossa plataforma imediatamente após a sua inscrição. Você pode assistir no seu próprio ritmo, a qualquer hora do dia ou da noite, com acesso vitalício.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-toggle" aria-expanded="false" aria-controls="faq-content-4">
+              <span>Quais ferramentas e bibliotecas JavaScript vamos utilizar?</span>
+              <span class="faq-icon"><i data-lucide="chevron-down"></i></span>
+            </button>
+            <div class="faq-content" id="faq-content-4" aria-hidden="true">
+              <div class="faq-body">
+                <p>Usaremos tecnologias web padrão (HTML5, CSS3, JavaScript) com a biblioteca Leaflet.js para exibição dos mapas, além de GeoJSON para representação de dados espaciais e bibliotecas auxiliares para renderizar os gráficos de dashboard em tempo real.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <img src="/logo.png" alt="Logo Ambiental Pro" class="footer-logo">
+        <p>Capacitando profissionais com o método prático que o mercado realmente contrata.</p>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Ambiental Pro. Todos os direitos reservados. CNPJ: 26.315.653/0001-38</p>
+        <div class="footer-links">
+          <a href="#">Políticas de Privacidade</a>
+          <a href="#">Termos de Uso</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script File -->
+</body>
+</html>
