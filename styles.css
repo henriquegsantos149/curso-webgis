@@ -49,6 +49,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -139,13 +140,26 @@ a {
 }
 
 .section-padding {
-  padding: 80px 0;
+  padding: 60px 0;
 }
 
 @media (min-width: 768px) {
   .section-padding {
-    padding: 120px 0;
+    padding: 80px 0;
   }
+}
+
+.comparison-section,
+.curriculum-section,
+.vibecoding-section,
+.instructor-section,
+.registration-section,
+.faq-section {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .bg-dark-layer {
@@ -866,18 +880,18 @@ a {
 /* Vibecoding Highlight Section */
 .vibecoding-section {
   position: relative;
-  padding: 100px 0;
+  padding: 60px 0;
 }
 
 @media (min-width: 768px) {
   .vibecoding-section {
-    padding: 140px 0;
+    padding: 80px 0;
   }
 }
 
 @media (min-width: 992px) {
   .vibecoding-section {
-    padding: 160px 0;
+    padding: 100px 0;
   }
   .vibecoding-section .grid-2 {
     grid-template-columns: 0.85fr 1.15fr;
