@@ -1747,6 +1747,40 @@ a {
   color: var(--color-primary);
 }
 
+/* FAQ Light Section Overrides */
+.bg-light-layer .faq-item {
+  background: var(--color-bg-card-light);
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow: var(--shadow-sm);
+}
+
+.bg-light-layer .faq-item:hover {
+  background: #ffffff;
+  border-color: rgba(0, 74, 173, 0.15);
+  box-shadow: var(--shadow-md);
+}
+
+.bg-light-layer .faq-toggle {
+  color: var(--color-text-dark);
+}
+
+.bg-light-layer .faq-item.active {
+  background: rgba(0, 74, 173, 0.04);
+  border-color: rgba(0, 74, 173, 0.2);
+}
+
+.bg-light-layer .faq-item.active .faq-toggle {
+  color: var(--color-primary);
+}
+
+.bg-light-layer .faq-body p {
+  color: #475569;
+}
+
+.bg-light-layer .faq-item:hover .faq-toggle {
+  color: var(--color-primary);
+}
+
 /* Vibecoding Split Panel Design */
 .vibecoding-split {
   display: grid;
