@@ -263,18 +263,17 @@ function initEducationToggle() {
 }
 
 // Lightbox for Vibecoding screenshot
+// Lightbox for enlarging images (Vibecoding screenshot, Certificate mockup, etc.)
 function initLightbox() {
   const lightbox = document.getElementById('image-lightbox');
   const lightboxImg = document.getElementById('lightbox-img');
   const closeBtn = document.querySelector('.lightbox-close');
-  const triggerCard = document.querySelector('.vibecoding-visual .vibe-card');
+  const triggers = document.querySelectorAll('.lightbox-trigger, .vibecoding-visual .vibe-card');
 
-  if (!lightbox || !lightboxImg || !triggerCard) return;
+  if (!lightbox || !lightboxImg || triggers.length === 0) return;
 
-  const openLightbox = () => {
-    const img = triggerCard.querySelector('img');
-    if (!img) return;
-    lightboxImg.src = img.src;
+  const openLightbox = (imgSrc) => {
+    lightboxImg.src = imgSrc;
     lightbox.style.display = 'flex';
     // Force reflow
     lightbox.offsetHeight;
@@ -292,7 +291,15 @@ function initLightbox() {
     }, 300); // Match transition speed
   };
 
-  triggerCard.addEventListener('click', openLightbox);
+  triggers.forEach(trigger => {
+    trigger.style.cursor = 'pointer';
+    trigger.addEventListener('click', () => {
+      const img = trigger.tagName === 'IMG' ? trigger : trigger.querySelector('img');
+      if (img) {
+        openLightbox(img.src);
+      }
+    });
+  });
   
   lightbox.addEventListener('click', (e) => {
     if (e.target === lightbox || e.target === closeBtn) {
