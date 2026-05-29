@@ -198,22 +198,51 @@ function initEnrollmentForm() {
       submitBtn.innerHTML = '<i data-lucide="loader" class="animate-spin"></i> Processando inscrição...';
       if (typeof lucide !== 'undefined') lucide.createIcons();
 
+      // Capture form data
+      const formData = new FormData(form);
+      const formPayload = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        whatsapp: formData.get('whatsapp'),
+        education: formData.get('education'),
+        education_area: formData.get('education_area') || ''
+      };
+
       // Capture all UTM parameters from the current URL
       const urlParams = new URLSearchParams(window.location.search);
       const finalCheckoutUrl = new URL(CHECKOUT_URL);
       
       urlParams.forEach((value, key) => {
-        if (key.toLowerCase().startsWith('utm_')) {
+        const lowerKey = key.toLowerCase();
+        if (lowerKey.startsWith('utm_')) {
           finalCheckoutUrl.searchParams.append(key, value);
+          formPayload[lowerKey] = value;
         }
       });
 
-      // Redirect to the checkout URL after a short delay
-      setTimeout(() => {
+      // Send to our secure Vercel API
+      fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formPayload)
+      })
+      .then(response => {
+        if (!response.ok) {
+          console.error('Failed to subscribe lead to ActiveCampaign');
+        }
+      })
+      .catch(error => {
+        console.error('Error calling subscribe API:', error);
+      })
+      .finally(() => {
+        // Redireciona para o checkout independentemente do sucesso da API,
+        // para não travar a venda em caso de falha de conexão.
         submitBtn.innerHTML = '<i data-lucide="loader" class="animate-spin"></i> Redirecionando...';
         if (typeof lucide !== 'undefined') lucide.createIcons();
         window.location.href = finalCheckoutUrl.toString();
-      }, 1000);
+      });
     });
   });
 }
