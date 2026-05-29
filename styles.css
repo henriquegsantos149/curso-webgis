@@ -1081,50 +1081,9 @@ a {
   transition: transform var(--transition-normal);
 }
 
-.mockup-overlay {
-  position: absolute;
-  inset: 8px;
-  background-color: rgba(7, 12, 25, 0.55);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  opacity: 0;
-  transition: opacity var(--transition-normal);
-  z-index: 3;
-  border-radius: calc(var(--radius-md) - 4px);
-  color: #fff;
-}
-
-.mockup-overlay i {
-  width: 36px;
-  height: 36px;
-  color: var(--color-accent);
-  transition: transform var(--transition-normal);
-}
-
-.mockup-overlay span {
-  font-family: var(--font-title);
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
 .certificate-mockup-wrapper:hover {
   transform: translateY(-10px) rotate(1deg);
   box-shadow: var(--shadow-glow), var(--shadow-lg);
-}
-
-.certificate-mockup-wrapper:hover .mockup-overlay {
-  opacity: 1;
-}
-
-.certificate-mockup-wrapper:hover .mockup-overlay i {
-  transform: scale(1.15);
 }
 
 .certificate-mockup-wrapper:hover .certificate-img {
