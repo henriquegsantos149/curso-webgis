@@ -36,13 +36,17 @@ export default async function handler(req, res) {
   };
 
   const fieldValues = [];
-  addField(fieldValues, '769', education);
-  addField(fieldValues, '770', education_area);
-  addField(fieldValues, '764', utm_source);
-  addField(fieldValues, '765', utm_medium);
-  addField(fieldValues, '763', utm_campaign);
-  addField(fieldValues, '766', utm_content);
-  addField(fieldValues, '767', utm_term);
+  addField(fieldValues, '769', education);      // [PERPETUOWORKSHOP][WEBGIS] UTM Possui Graduação
+  addField(fieldValues, '770', education_area); // [PERPETUOWORKSHOP][WEBGIS] UTM Área de Formação
+  addField(fieldValues, '764', utm_source);     // [PERPETUOWORKSHOP][WEBGIS] UTM Source
+  addField(fieldValues, '765', utm_medium);     // [PERPETUOWORKSHOP][WEBGIS] UTM Medium
+  addField(fieldValues, '763', utm_campaign);   // [PERPETUOWORKSHOP][WEBGIS] UTM Campaign
+  addField(fieldValues, '766', utm_content);    // [PERPETUOWORKSHOP][WEBGIS] UTM Content
+  addField(fieldValues, '767', utm_term);       // [PERPETUOWORKSHOP][WEBGIS] UTM Term
+  
+  // [PERPETUOWORKSHOP][WEBGIS] UTM Data de Incriçao (ID 768)
+  const currentDateTime = new Date().toISOString();
+  addField(fieldValues, '768', currentDateTime);
 
   const contactPayload = {
     contact: {
