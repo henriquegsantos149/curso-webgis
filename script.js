@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEnrollmentForm();
   initEducationToggle();
   initLightbox();
+  initPhoneValidation();
 });
 
 // Sticky Header behavior
@@ -311,5 +312,21 @@ function initLightbox() {
     if (e.key === 'Escape' && lightbox.classList.contains('active')) {
       closeLightbox();
     }
+  });
+}
+
+// Phone input validation and formatting
+function initPhoneValidation() {
+  const phoneInputs = document.querySelectorAll('input[type="tel"]');
+  
+  phoneInputs.forEach(input => {
+    // Only allow numbers and limit to 11 digits
+    input.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
+      if (value.length > 11) {
+        value = value.slice(0, 11); // Limit length to 11
+      }
+      e.target.value = value;
+    });
   });
 }
