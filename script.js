@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initEducationToggle();
   initLightbox();
   initPhoneValidation();
+  initEnrollmentModal();
 });
 
 // Sticky Header behavior
@@ -357,5 +358,54 @@ function initPhoneValidation() {
       }
       e.target.value = value;
     });
+  });
+}
+
+// Enrollment Modal logic
+function initEnrollmentModal() {
+  const modal = document.getElementById('enrollment-modal');
+  const openButtons = document.querySelectorAll('.open-modal-btn, .hero-mockup-container');
+  const closeButton = modal ? modal.querySelector('.modal-close') : null;
+  const overlay = modal ? modal.querySelector('.modal-overlay') : null;
+
+  if (!modal) return;
+
+  const openModal = () => {
+    modal.style.display = 'flex';
+    // Force reflow
+    modal.offsetHeight;
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Stop page scroll
+  };
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore page scroll
+    setTimeout(() => {
+      if (!modal.classList.contains('active')) {
+        modal.style.display = 'none';
+      }
+    }, 300); // Match transition duration
+  };
+
+  openButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal();
+    });
+  });
+
+  if (closeButton) {
+    closeButton.addEventListener('click', closeModal);
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', closeModal);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
   });
 }

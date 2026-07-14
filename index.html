@@ -92,7 +92,7 @@
         </ul>
       </nav>
       <div class="header-cta">
-        <a href="#matricula" class="btn btn-secondary-outline btn-sm" id="header-cta-btn">Garantir Vaga</a>
+        <button class="btn btn-secondary-outline btn-sm open-modal-btn" id="header-cta-btn">Garantir Vaga</button>
       </div>
       <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Abrir Menu">
         <i data-lucide="menu"></i>
@@ -513,69 +513,73 @@
       </div>
     </section>
 
-    <!-- Pricing / Registration Box -->
-    <section id="matricula" class="section-padding registration-section bg-dark-layer">
+    <!-- Pricing Section -->
+    <section id="investimento" class="section-padding pricing-section bg-dark-layer">
+      <div class="glow-bg-radial primary-glow"></div>
       <div class="container max-w-md">
-        <div class="registration-card glassmorphism reveal">
-          <div class="card-glow-top"></div>
-          <div class="text-center">
-            <h2 class="card-title">Inicie sua Jornada WebGIS Hoje</h2>
-            <p class="card-subtitle">Inscreva-se e garanta seu acesso ao curso livre prático com certificação inclusa.</p>
+        <div class="section-header text-center reveal">
+          <div class="badge">
+            <span class="badge-dot"></span>
+            <span class="badge-text">Oferta de Lançamento</span>
           </div>
-
-          <div class="benefits-summary" style="margin-top: 24px;">
-            <div class="benefit-item">
-              <i data-lucide="check-check"></i>
-              <span>6 aulas práticas completas</span>
-            </div>
-            <div class="benefit-item">
-              <i data-lucide="check-check"></i>
-              <span>Códigos fontes disponíveis</span>
-            </div>
-            <div class="benefit-item">
-              <i data-lucide="check-check"></i>
-              <span>Suporte da Ambiental Pro</span>
-            </div>
-            <div class="benefit-item">
-              <i data-lucide="check-check"></i>
-              <span>Certificado de conclusão incluso</span>
-            </div>
-          </div>
-
-          <form id="enrollment-form" class="registration-form">
-            <div class="form-group">
-              <input type="text" id="user-name" name="name" placeholder="Nome Completo" required>
-            </div>
-            
-            <div class="form-group">
-              <input type="email" id="user-email" name="email" placeholder="E-mail Principal" required>
-            </div>
-
-            <div class="form-group">
-              <input type="tel" id="user-whatsapp" name="whatsapp" placeholder="WhatsApp (com DDD)" pattern="\d{11}" title="Digite o DDD + número com 9 dígitos (ex: 11999999999)" maxlength="11" required>
-            </div>
-
-            <div class="form-group">
-              <select id="user-education" name="education" required>
-                <option value="" disabled selected>Tem formação superior?</option>
-                <option value="sim">Sim</option>
-                <option value="nao">Não</option>
-              </select>
-            </div>
-
-            <div class="form-group hidden" id="education-area-group">
-              <input type="text" id="user-education-area" name="education_area" placeholder="Área de Formação (Ex: Engenharia Ambiental, Geografia, etc.)">
-            </div>
-
-            <button type="submit" class="btn btn-primary btn-block btn-lg btn-glow" id="submit-enroll-btn">
-              Quero Garantir Minha Inscrição <i data-lucide="check"></i>
-            </button>
-          </form>
-
-          <p class="security-text">
-            <i data-lucide="shield-check"></i> Seus dados estão protegidos sob a LGPD.
-          </p>
+          <h2 class="section-title">Garanta seu <span class="gradient-text">Acesso Vitalício</span></h2>
+          <p class="section-desc">Inscreva-se hoje com desconto exclusivo e domine o desenvolvimento de Geoportais e aplicações WebGIS.</p>
         </div>
+
+        <div class="pricing-wrapper reveal delay-1">
+          <div class="pricing-card-premium glassmorphism">
+            <div class="card-glow-top"></div>
+            
+            <div class="pricing-header">
+              <span class="price-badge">Workshop Oficial</span>
+              <h3>Workshop WebGIS Na Prática</h3>
+              <p>Do QGIS ao Geoportal Online</p>
+            </div>
+
+            <div class="price-box">
+              <span class="old-price">De R$ 97,00</span>
+              <div class="current-price">
+                <span class="currency">R$ </span>39,00
+              </div>
+              <span class="price-detail">ou em até 12x de R$ 3,90</span>
+            </div>
+
+            <div class="pricing-features">
+              <div class="feature-item">
+                <i data-lucide="check-circle-2"></i>
+                <span><strong>6 Aulas Práticas</strong> em vídeo de alta qualidade</span>
+              </div>
+              <div class="feature-item">
+                <i data-lucide="check-circle-2"></i>
+                <span><strong>Códigos-Fonte Completos</strong> para você copiar e adaptar</span>
+              </div>
+              <div class="feature-item">
+                <i data-lucide="check-circle-2"></i>
+                <span><strong>Certificado de Conclusão</strong> oficial de 4 horas incluso</span>
+              </div>
+              <div class="feature-item">
+                <i data-lucide="check-circle-2"></i>
+                <span><strong>Acesso Vitalício</strong> para assistir no seu ritmo</span>
+              </div>
+              <div class="feature-item">
+                <i data-lucide="check-circle-2"></i>
+                <span><strong>Suporte Completo</strong> pela equipe da Ambiental Pro</span>
+              </div>
+            </div>
+
+            <div class="pricing-action">
+              <button class="btn btn-primary btn-block btn-lg btn-glow open-modal-btn">
+                Garantir Minha Vaga Agora <i data-lucide="arrow-right"></i>
+              </button>
+              <span class="pricing-guarantee">
+                <i data-lucide="shield-check"></i> Garantia incondicional de 7 dias
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
       </div>
     </section>
 
@@ -659,6 +663,58 @@
       </div>
     </div>
   </footer>
+
+  <!-- Enrollment Form Modal -->
+  <div id="enrollment-modal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-container">
+      <div class="modal-card glassmorphism">
+        <div class="card-glow-top"></div>
+        <button class="modal-close" aria-label="Fechar Modal">
+          <i data-lucide="x"></i>
+        </button>
+        
+        <div class="modal-header text-center">
+          <h2 class="card-title">Inicie sua Jornada WebGIS Hoje</h2>
+          <p class="card-subtitle">Inscreva-se e garanta seu acesso ao curso livre prático com certificação inclusa.</p>
+        </div>
+
+        <form id="enrollment-form" class="registration-form">
+          <div class="form-group">
+            <input type="text" id="user-name" name="name" placeholder="Nome Completo" required>
+          </div>
+          
+          <div class="form-group">
+            <input type="email" id="user-email" name="email" placeholder="E-mail Principal" required>
+          </div>
+
+          <div class="form-group">
+            <input type="tel" id="user-whatsapp" name="whatsapp" placeholder="WhatsApp (com DDD)" pattern="\d{11}" title="Digite o DDD + número com 9 dígitos (ex: 11999999999)" maxlength="11" required>
+          </div>
+
+          <div class="form-group">
+            <select id="user-education" name="education" required>
+              <option value="" disabled selected>Tem formação superior?</option>
+              <option value="sim">Sim</option>
+              <option value="nao">Não</option>
+            </select>
+          </div>
+
+          <div class="form-group hidden" id="education-area-group">
+            <input type="text" id="user-education-area" name="education_area" placeholder="Área de Formação (Ex: Engenharia Ambiental, Geografia, etc.)">
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block btn-lg btn-glow" id="submit-enroll-btn">
+            Quero Garantir Minha Inscrição <i data-lucide="check"></i>
+          </button>
+        </form>
+
+        <p class="security-text" style="margin-top: 16px; text-align: center; font-size: 0.8rem; opacity: 0.7;">
+          <i data-lucide="shield-check"></i> Seus dados estão protegidos sob a LGPD.
+        </p>
+      </div>
+    </div>
+  </div>
 
   <!-- Image Lightbox Modal -->
   <div id="image-lightbox" class="lightbox">
