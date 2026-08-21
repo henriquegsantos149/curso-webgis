@@ -2198,3 +2198,14 @@ a {
   margin-bottom: 24px;
   color: var(--color-text-muted-light);
 }
+
+
+/* Fix footer brand text alignment */
+.footer-brand {
+  text-align: center !important;
+}
+.footer-brand p {
+  text-align: center !important;
+  margin-left: auto;
+  margin-right: auto;
+}
