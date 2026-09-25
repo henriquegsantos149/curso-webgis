@@ -259,12 +259,13 @@ function initEnrollmentForm() {
   const forms = document.querySelectorAll('#enrollment-form, #hero-enrollment-form');
   if (forms.length === 0) return;
 
-  const CHECKOUT_URL = "https://pay.voompcreators.com.br/14992/offer/Yj3SrT";
+  const DEFAULT_CHECKOUT_URL = "https://pay.voompcreators.com.br/14992/offer/Yj3SrT";
 
   forms.forEach(form => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       
+      const targetCheckout = form.getAttribute('data-checkout-url') || DEFAULT_CHECKOUT_URL;
       const submitBtn = form.querySelector('button[type="submit"]');
       if (!submitBtn) return;
 
@@ -275,17 +276,20 @@ function initEnrollmentForm() {
 
       // Capture form data
       const formData = new FormData(form);
+      const rawWhatsapp = formData.get('whatsapp') || '';
+      const cleanWhatsapp = rawWhatsapp.replace(/\D/g, ''); // Envia limpo para o ActiveCampaign e Meta
+      
       const formPayload = {
         name: formData.get('name'),
         email: formData.get('email'),
-        whatsapp: formData.get('whatsapp'),
+        whatsapp: cleanWhatsapp,
         education: formData.get('education'),
         education_area: formData.get('education_area') || ''
       };
 
       // Capture all UTM parameters from the current URL
       const urlParams = new URLSearchParams(window.location.search);
-      const finalCheckoutUrl = new URL(CHECKOUT_URL);
+      const finalCheckoutUrl = new URL(targetCheckout);
       
       urlParams.forEach((value, key) => {
         const lowerKey = key.toLowerCase();
@@ -447,18 +451,29 @@ function initLightbox() {
   });
 }
 
-// Phone input validation and formatting
+// Phone input validation and visual formatting: (XX) XXXXX-XXXX
+function formatPhoneBR(raw) {
+  const digits = raw.replace(/\D/g, '').slice(0, 11);
+  if (digits.length === 0) return '';
+  if (digits.length <= 2) return `(${digits}`;
+  if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
+  return `(${digits.slice(0, 2)}) ${digits.slice(2, 7)}-${digits.slice(7)}`;
+}
+
 function initPhoneValidation() {
   const phoneInputs = document.querySelectorAll('input[type="tel"]');
   
   phoneInputs.forEach(input => {
-    // Only allow numbers and limit to 11 digits
     input.addEventListener('input', (e) => {
-      let value = e.target.value.replace(/\D/g, ''); // Remove all non-digits
-      if (value.length > 11) {
-        value = value.slice(0, 11); // Limit length to 11
+      const cursorAtEnd = e.target.selectionStart === e.target.value.length;
+      e.target.value = formatPhoneBR(e.target.value);
+      if (cursorAtEnd) {
+        e.target.setSelectionRange(e.target.value.length, e.target.value.length);
       }
-      e.target.value = value;
+    });
+
+    input.addEventListener('blur', (e) => {
+      e.target.value = formatPhoneBR(e.target.value);
     });
   });
 }
@@ -512,7 +527,7 @@ function initEnrollmentModal() {
   });
 }
 
-// Student Testimonials Carousel logic (Infinite Looping Carousel)
+// Student Testimonials Carousel logic
 function initTestimonialsCarousel() {
   const container = document.getElementById('testimonials-carousel');
   const track = document.getElementById('testimonials-track');
@@ -522,155 +537,89 @@ function initTestimonialsCarousel() {
 
   if (!container || !track) return;
 
-  const originalCards = Array.from(track.children);
-  const totalOriginal = originalCards.length;
-  if (totalOriginal === 0) return;
+  const cards = Array.from(track.children);
+  if (cards.length === 0) return;
 
-  // Clone slides to allow seamless infinite loop
-  originalCards.forEach(card => {
-    const clone = card.cloneNode(true);
-    clone.classList.add('carousel-clone');
-    track.appendChild(clone);
-  });
-
-  const getStep = () => {
-    const card = track.children[0];
-    const gap = 24; // matches styles.css gap
-    return card.offsetWidth + gap;
+  const getCardStep = () => {
+    const cardWidth = cards[0].offsetWidth;
+    const gap = 24;
+    return cardWidth + gap;
   };
 
-  let currentIndex = 0;
-  let isTransitioning = false;
-
-  // Render dots for the original slides
+  // Render dots
   if (dotsContainer) {
+    dotsContainer.style.display = 'flex';
     dotsContainer.innerHTML = '';
-    for (let i = 0; i < totalOriginal; i++) {
+    cards.forEach((card, idx) => {
       const dot = document.createElement('button');
-      dot.className = `dot ${i === 0 ? 'active' : ''}`;
-      dot.setAttribute('aria-label', `Ir para depoimento ${i + 1}`);
+      dot.className = `dot ${idx === 0 ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Ir para depoimento ${idx + 1}`);
       dot.addEventListener('click', () => {
-        goToIndex(i);
+        const maxScroll = container.scrollWidth - container.clientWidth;
+        if (idx === cards.length - 1) {
+          container.scrollTo({ left: maxScroll, behavior: 'smooth' });
+        } else {
+          container.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
+        }
       });
       dotsContainer.appendChild(dot);
-    }
+    });
   }
 
-  const updateDots = (realIndex) => {
+  const updateDots = () => {
     if (!dotsContainer) return;
+    const step = getCardStep();
+    const maxScroll = container.scrollWidth - container.clientWidth;
     const dots = dotsContainer.querySelectorAll('.dot');
+    
+    let currentIndex = Math.round(container.scrollLeft / step);
+    if (container.scrollLeft >= maxScroll - 15) {
+      currentIndex = cards.length - 1;
+    }
+    
     dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === (realIndex % totalOriginal));
+      dot.classList.toggle('active', i === currentIndex);
     });
   };
 
-  const goToIndex = (index, smooth = true) => {
-    const step = getStep();
-    currentIndex = index;
-    container.scrollTo({
-      left: currentIndex * step,
-      behavior: smooth ? 'smooth' : 'auto'
-    });
-    updateDots(currentIndex);
-  };
+  container.addEventListener('scroll', updateDots, { passive: true });
 
   const nextSlide = () => {
-    if (isTransitioning) return;
-    const step = getStep();
-    currentIndex++;
-
-    container.scrollTo({
-      left: currentIndex * step,
-      behavior: 'smooth'
-    });
-    updateDots(currentIndex);
-
-    // If reached the cloned set equivalent to start, reset seamlessly without animation
-    if (currentIndex >= totalOriginal) {
-      isTransitioning = true;
-      setTimeout(() => {
-        currentIndex = 0;
-        container.scrollTo({
-          left: 0,
-          behavior: 'auto'
-        });
-        updateDots(0);
-        isTransitioning = false;
-      }, 500); // Wait for smooth scroll to finish
+    const step = getCardStep();
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    if (container.scrollLeft >= maxScroll - 15) {
+      container.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: step, behavior: 'smooth' });
     }
   };
 
   const prevSlide = () => {
-    if (isTransitioning) return;
-    const step = getStep();
-
-    if (currentIndex <= 0) {
-      isTransitioning = true;
-      // Instantly jump to clones
-      container.scrollTo({
-        left: totalOriginal * step,
-        behavior: 'auto'
-      });
-      currentIndex = totalOriginal - 1;
-      setTimeout(() => {
-        container.scrollTo({
-          left: currentIndex * step,
-          behavior: 'smooth'
-        });
-        updateDots(currentIndex);
-        isTransitioning = false;
-      }, 20);
+    const step = getCardStep();
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    if (container.scrollLeft <= 15) {
+      container.scrollTo({ left: maxScroll, behavior: 'smooth' });
     } else {
-      currentIndex--;
-      container.scrollTo({
-        left: currentIndex * step,
-        behavior: 'smooth'
-      });
-      updateDots(currentIndex);
+      container.scrollBy({ left: -step, behavior: 'smooth' });
     }
   };
 
   if (nextBtn) nextBtn.addEventListener('click', nextSlide);
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
-  // Sync scroll on manual drag/touch
-  let scrollTimeout = null;
-  container.addEventListener('scroll', () => {
-    if (isTransitioning) return;
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(() => {
-      const step = getStep();
-      const rawIndex = Math.round(container.scrollLeft / step);
-      if (rawIndex >= totalOriginal * 2) {
-        currentIndex = 0;
-        container.scrollTo({ left: 0, behavior: 'auto' });
-      } else {
-        currentIndex = rawIndex;
-      }
-      updateDots(currentIndex);
-    }, 100);
+  // Autoplay a cada 4 segundos
+  let timer = setInterval(nextSlide, 4000);
+  const wrapper = container.closest('.testimonials-carousel-wrapper') || container;
+  
+  wrapper.addEventListener('mouseenter', () => clearInterval(timer));
+  wrapper.addEventListener('mouseleave', () => {
+    clearInterval(timer);
+    timer = setInterval(nextSlide, 4000);
+  });
+  wrapper.addEventListener('touchstart', () => clearInterval(timer), { passive: true });
+  wrapper.addEventListener('touchend', () => {
+    clearInterval(timer);
+    timer = setInterval(nextSlide, 4000);
   }, { passive: true });
-
-  // Autoplay functionality
-  let autoplayTimer = null;
-  const startAutoplay = () => {
-    stopAutoplay();
-    autoplayTimer = setInterval(nextSlide, 3500);
-  };
-
-  const stopAutoplay = () => {
-    if (autoplayTimer) {
-      clearInterval(autoplayTimer);
-      autoplayTimer = null;
-    }
-  };
-
-  startAutoplay();
-
-  const carouselWrapper = container.closest('.testimonials-carousel-wrapper') || container;
-  carouselWrapper.addEventListener('mouseenter', stopAutoplay);
-  carouselWrapper.addEventListener('mouseleave', startAutoplay);
-  carouselWrapper.addEventListener('touchstart', stopAutoplay, { passive: true });
-  carouselWrapper.addEventListener('touchend', startAutoplay, { passive: true });
 }
 
