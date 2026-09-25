@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initEnrollmentForm();
   initEducationToggle();
+  initTestimonialsCarousel();
   initLightbox();
   initPhoneValidation();
   initEnrollmentModal();
@@ -510,3 +511,166 @@ function initEnrollmentModal() {
     }
   });
 }
+
+// Student Testimonials Carousel logic (Infinite Looping Carousel)
+function initTestimonialsCarousel() {
+  const container = document.getElementById('testimonials-carousel');
+  const track = document.getElementById('testimonials-track');
+  const prevBtn = document.getElementById('carousel-prev-btn');
+  const nextBtn = document.getElementById('carousel-next-btn');
+  const dotsContainer = document.getElementById('carousel-dots');
+
+  if (!container || !track) return;
+
+  const originalCards = Array.from(track.children);
+  const totalOriginal = originalCards.length;
+  if (totalOriginal === 0) return;
+
+  // Clone slides to allow seamless infinite loop
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.classList.add('carousel-clone');
+    track.appendChild(clone);
+  });
+
+  const getStep = () => {
+    const card = track.children[0];
+    const gap = 24; // matches styles.css gap
+    return card.offsetWidth + gap;
+  };
+
+  let currentIndex = 0;
+  let isTransitioning = false;
+
+  // Render dots for the original slides
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i < totalOriginal; i++) {
+      const dot = document.createElement('button');
+      dot.className = `dot ${i === 0 ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Ir para depoimento ${i + 1}`);
+      dot.addEventListener('click', () => {
+        goToIndex(i);
+      });
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  const updateDots = (realIndex) => {
+    if (!dotsContainer) return;
+    const dots = dotsContainer.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === (realIndex % totalOriginal));
+    });
+  };
+
+  const goToIndex = (index, smooth = true) => {
+    const step = getStep();
+    currentIndex = index;
+    container.scrollTo({
+      left: currentIndex * step,
+      behavior: smooth ? 'smooth' : 'auto'
+    });
+    updateDots(currentIndex);
+  };
+
+  const nextSlide = () => {
+    if (isTransitioning) return;
+    const step = getStep();
+    currentIndex++;
+
+    container.scrollTo({
+      left: currentIndex * step,
+      behavior: 'smooth'
+    });
+    updateDots(currentIndex);
+
+    // If reached the cloned set equivalent to start, reset seamlessly without animation
+    if (currentIndex >= totalOriginal) {
+      isTransitioning = true;
+      setTimeout(() => {
+        currentIndex = 0;
+        container.scrollTo({
+          left: 0,
+          behavior: 'auto'
+        });
+        updateDots(0);
+        isTransitioning = false;
+      }, 500); // Wait for smooth scroll to finish
+    }
+  };
+
+  const prevSlide = () => {
+    if (isTransitioning) return;
+    const step = getStep();
+
+    if (currentIndex <= 0) {
+      isTransitioning = true;
+      // Instantly jump to clones
+      container.scrollTo({
+        left: totalOriginal * step,
+        behavior: 'auto'
+      });
+      currentIndex = totalOriginal - 1;
+      setTimeout(() => {
+        container.scrollTo({
+          left: currentIndex * step,
+          behavior: 'smooth'
+        });
+        updateDots(currentIndex);
+        isTransitioning = false;
+      }, 20);
+    } else {
+      currentIndex--;
+      container.scrollTo({
+        left: currentIndex * step,
+        behavior: 'smooth'
+      });
+      updateDots(currentIndex);
+    }
+  };
+
+  if (nextBtn) nextBtn.addEventListener('click', nextSlide);
+  if (prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+  // Sync scroll on manual drag/touch
+  let scrollTimeout = null;
+  container.addEventListener('scroll', () => {
+    if (isTransitioning) return;
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      const step = getStep();
+      const rawIndex = Math.round(container.scrollLeft / step);
+      if (rawIndex >= totalOriginal * 2) {
+        currentIndex = 0;
+        container.scrollTo({ left: 0, behavior: 'auto' });
+      } else {
+        currentIndex = rawIndex;
+      }
+      updateDots(currentIndex);
+    }, 100);
+  }, { passive: true });
+
+  // Autoplay functionality
+  let autoplayTimer = null;
+  const startAutoplay = () => {
+    stopAutoplay();
+    autoplayTimer = setInterval(nextSlide, 3500);
+  };
+
+  const stopAutoplay = () => {
+    if (autoplayTimer) {
+      clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    }
+  };
+
+  startAutoplay();
+
+  const carouselWrapper = container.closest('.testimonials-carousel-wrapper') || container;
+  carouselWrapper.addEventListener('mouseenter', stopAutoplay);
+  carouselWrapper.addEventListener('mouseleave', startAutoplay);
+  carouselWrapper.addEventListener('touchstart', stopAutoplay, { passive: true });
+  carouselWrapper.addEventListener('touchend', startAutoplay, { passive: true });
+}
+
