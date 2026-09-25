@@ -527,7 +527,7 @@ function initEnrollmentModal() {
   });
 }
 
-// Student Testimonials Carousel logic
+// Student Testimonials Carousel logic (Infinite Transform Loop)
 function initTestimonialsCarousel() {
   const container = document.getElementById('testimonials-carousel');
   const track = document.getElementById('testimonials-track');
@@ -537,89 +537,184 @@ function initTestimonialsCarousel() {
 
   if (!container || !track) return;
 
-  const cards = Array.from(track.children);
-  if (cards.length === 0) return;
+  const originalCards = Array.from(track.children);
+  const totalOriginal = originalCards.length;
+  if (totalOriginal === 0) return;
 
-  const getCardStep = () => {
-    const cardWidth = cards[0].offsetWidth;
-    const gap = 24;
-    return cardWidth + gap;
+  // Clona os cards originais para permitir loop infinito contínuo em ambas as direções
+  originalCards.forEach((card) => {
+    const clone = card.cloneNode(true);
+    clone.classList.add('testimonial-clone');
+    track.appendChild(clone);
+  });
+  [...originalCards].reverse().forEach((card) => {
+    const clone = card.cloneNode(true);
+    clone.classList.add('testimonial-clone');
+    track.insertBefore(clone, track.firstChild);
+  });
+
+  const allCards = Array.from(track.children);
+
+  // Re-inicializa triggers de lightbox nos clones adicionados dinamicamente
+  track.querySelectorAll('.testimonial-clone.lightbox-trigger').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const img = trigger.querySelector('img');
+      const lightboxModal = document.getElementById('lightbox-modal');
+      const lightboxImg = document.getElementById('lightbox-img');
+      const lightboxCaption = document.getElementById('lightbox-caption');
+      if (img && lightboxModal && lightboxImg) {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        if (lightboxCaption) lightboxCaption.textContent = img.alt || '';
+        lightboxModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  let currentIndex = totalOriginal; // Começa no primeiro card original
+  let isTransitioning = false;
+
+  const getCardOffset = (index) => {
+    const card = allCards[index];
+    if (!card) return 0;
+    // Posição para centralizar exatamente o card no meio do viewport do container
+    const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+    const containerCenter = container.clientWidth / 2;
+    return -(cardCenter - containerCenter);
   };
+
+  const updateActiveCards = (activeIdx) => {
+    // Normaliza para o índice correspondente no set original (0 a totalOriginal - 1)
+    const activeMod = ((activeIdx - totalOriginal) % totalOriginal + totalOriginal) % totalOriginal;
+    
+    // Todos os cards (originais e clones) que correspondem ao activeMod recebem is-active
+    allCards.forEach((card, idx) => {
+      const cardMod = ((idx - totalOriginal) % totalOriginal + totalOriginal) % totalOriginal;
+      if (cardMod === activeMod) {
+        card.classList.add('is-active');
+      } else {
+        card.classList.remove('is-active');
+      }
+    });
+  };
+
+  const updateDots = () => {
+    if (!dotsContainer) return;
+    const activeOriginalIndex = ((currentIndex - totalOriginal) % totalOriginal + totalOriginal) % totalOriginal;
+    const dots = dotsContainer.querySelectorAll('.dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('active', i === activeOriginalIndex);
+    });
+  };
+
+  const applyPosition = (index, animated = true) => {
+    const offset = getCardOffset(index);
+    if (animated) {
+      isTransitioning = true;
+      track.style.transition = 'transform 0.7s cubic-bezier(0.25, 1, 0.5, 1)';
+    } else {
+      track.style.transition = 'none';
+    }
+    track.style.transform = `translate3d(${offset}px, 0, 0)`;
+    updateActiveCards(index);
+    updateDots();
+  };
+
+  // Posicionamento inicial sem animação
+  const initPosition = () => {
+    applyPosition(currentIndex, false);
+  };
+  setTimeout(initPosition, 50);
+  window.addEventListener('resize', initPosition);
 
   // Render dots
   if (dotsContainer) {
     dotsContainer.style.display = 'flex';
     dotsContainer.innerHTML = '';
-    cards.forEach((card, idx) => {
+    originalCards.forEach((_, idx) => {
       const dot = document.createElement('button');
       dot.className = `dot ${idx === 0 ? 'active' : ''}`;
       dot.setAttribute('aria-label', `Ir para depoimento ${idx + 1}`);
       dot.addEventListener('click', () => {
-        const maxScroll = container.scrollWidth - container.clientWidth;
-        if (idx === cards.length - 1) {
-          container.scrollTo({ left: maxScroll, behavior: 'smooth' });
-        } else {
-          container.scrollTo({ left: card.offsetLeft - track.offsetLeft, behavior: 'smooth' });
-        }
+        if (isTransitioning) return;
+        currentIndex = totalOriginal + idx;
+        applyPosition(currentIndex, true);
       });
       dotsContainer.appendChild(dot);
     });
   }
 
-  const updateDots = () => {
-    if (!dotsContainer) return;
-    const step = getCardStep();
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    const dots = dotsContainer.querySelectorAll('.dot');
-    
-    let currentIndex = Math.round(container.scrollLeft / step);
-    if (container.scrollLeft >= maxScroll - 15) {
-      currentIndex = cards.length - 1;
-    }
-    
-    dots.forEach((dot, i) => {
-      dot.classList.toggle('active', i === currentIndex);
-    });
-  };
+  // O pulo do gato do loop infinito 100% invisível sem piscar:
+  track.addEventListener('transitionend', (e) => {
+    if (e.target !== track || e.propertyName !== 'transform') return;
+    isTransitioning = false;
 
-  container.addEventListener('scroll', updateDots, { passive: true });
+    // Se avançou além do set original
+    if (currentIndex >= totalOriginal * 2) {
+      currentIndex = currentIndex - totalOriginal;
+      // Salto instantâneo: desliga transição do track e reposiciona
+      track.style.transition = 'none';
+      const offset = getCardOffset(currentIndex);
+      track.style.transform = `translate3d(${offset}px, 0, 0)`;
+      // Força reflow para aplicar a remoção de transição sem piscar
+      void track.offsetHeight;
+    } 
+    // Se recuou antes do set original
+    else if (currentIndex < totalOriginal) {
+      currentIndex = currentIndex + totalOriginal;
+      track.style.transition = 'none';
+      const offset = getCardOffset(currentIndex);
+      track.style.transform = `translate3d(${offset}px, 0, 0)`;
+      void track.offsetHeight;
+    }
+  });
 
   const nextSlide = () => {
-    const step = getCardStep();
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    if (container.scrollLeft >= maxScroll - 15) {
-      container.scrollTo({ left: 0, behavior: 'smooth' });
-    } else {
-      container.scrollBy({ left: step, behavior: 'smooth' });
-    }
+    if (isTransitioning) return;
+    currentIndex++;
+    applyPosition(currentIndex, true);
   };
 
   const prevSlide = () => {
-    const step = getCardStep();
-    const maxScroll = container.scrollWidth - container.clientWidth;
-    if (container.scrollLeft <= 15) {
-      container.scrollTo({ left: maxScroll, behavior: 'smooth' });
-    } else {
-      container.scrollBy({ left: -step, behavior: 'smooth' });
-    }
+    if (isTransitioning) return;
+    currentIndex--;
+    applyPosition(currentIndex, true);
   };
 
   if (nextBtn) nextBtn.addEventListener('click', nextSlide);
   if (prevBtn) prevBtn.addEventListener('click', prevSlide);
 
-  // Autoplay a cada 4 segundos
-  let timer = setInterval(nextSlide, 4000);
+  // Suporte a swipe por toque (touch)
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+  container.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
+    clearInterval(timer);
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  container.addEventListener('touchend', () => {
+    if (Math.abs(touchDeltaX) > 50) {
+      if (touchDeltaX < 0) nextSlide();
+      else prevSlide();
+    }
+    clearInterval(timer);
+    timer = setInterval(nextSlide, 5500);
+  }, { passive: true });
+
+  // Autoplay sutil e infinito a cada 5.5 segundos
+  let timer = setInterval(nextSlide, 5500);
   const wrapper = container.closest('.testimonials-carousel-wrapper') || container;
   
   wrapper.addEventListener('mouseenter', () => clearInterval(timer));
   wrapper.addEventListener('mouseleave', () => {
     clearInterval(timer);
-    timer = setInterval(nextSlide, 4000);
+    timer = setInterval(nextSlide, 5500);
   });
-  wrapper.addEventListener('touchstart', () => clearInterval(timer), { passive: true });
-  wrapper.addEventListener('touchend', () => {
-    clearInterval(timer);
-    timer = setInterval(nextSlide, 4000);
-  }, { passive: true });
 }
 
