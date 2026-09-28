@@ -94,15 +94,22 @@ function initHeader() {
   const header = document.getElementById('main-header');
   if (!header) return;
 
+  let ticking = false;
   const handleScroll = () => {
-    if (window.scrollY > 50) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        ticking = false;
+      });
+      ticking = true;
     }
   };
 
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', handleScroll, { passive: true });
   // Run once on load in case page is refreshed while scrolled
   handleScroll();
 }
@@ -559,13 +566,13 @@ function initTestimonialsCarousel() {
   track.querySelectorAll('.testimonial-clone.lightbox-trigger').forEach(trigger => {
     trigger.addEventListener('click', () => {
       const img = trigger.querySelector('img');
-      const lightboxModal = document.getElementById('lightbox-modal');
+      const lightboxModal = document.getElementById('image-lightbox');
       const lightboxImg = document.getElementById('lightbox-img');
-      const lightboxCaption = document.getElementById('lightbox-caption');
       if (img && lightboxModal && lightboxImg) {
         lightboxImg.src = img.src;
-        lightboxImg.alt = img.alt;
-        if (lightboxCaption) lightboxCaption.textContent = img.alt || '';
+        lightboxImg.alt = img.alt || '';
+        lightboxModal.style.display = 'flex';
+        lightboxModal.offsetHeight;
         lightboxModal.classList.add('active');
         document.body.style.overflow = 'hidden';
       }
@@ -621,12 +628,16 @@ function initTestimonialsCarousel() {
     updateDots();
   };
 
-  // Posicionamento inicial sem animação
+  // Posicionamento inicial sem animação com resize otimizado (debounce)
+  let resizeTimeout;
   const initPosition = () => {
     applyPosition(currentIndex, false);
   };
   setTimeout(initPosition, 50);
-  window.addEventListener('resize', initPosition);
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(initPosition, 100);
+  }, { passive: true });
 
   // Render dots
   if (dotsContainer) {

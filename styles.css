@@ -50,6 +50,7 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   scroll-padding-top: 80px;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -59,6 +60,8 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Typography */
@@ -82,17 +85,29 @@ a {
   color: inherit;
 }
 
-/* Floating Radial Glow Backgrounds */
+/* Floating Radial Glow Backgrounds - Otimizados para Safari/iOS */
 .glow-bg-radial {
   position: absolute;
-  width: 600px;
-  height: 600px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
-  filter: blur(140px);
+  filter: blur(80px);
+  -webkit-filter: blur(80px);
   opacity: 0.15;
   pointer-events: none;
   z-index: -1;
-  transition: all var(--transition-slow);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+@media (max-width: 768px) {
+  .glow-bg-radial {
+    width: 320px;
+    height: 320px;
+    filter: blur(50px);
+    -webkit-filter: blur(50px);
+    opacity: 0.12;
+  }
 }
 
 .primary-glow {
@@ -1387,7 +1402,7 @@ a {
   padding: 14px 16px;
   color: #fff;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 16px; /* Previne auto-zoom no iOS Safari */
   transition: all var(--transition-fast);
   width: 100%;
 }
@@ -2276,30 +2291,31 @@ a {
   align-items: center;
   flex-wrap: nowrap;
   will-change: transform;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .testimonial-card {
   flex: 0 0 88%;
-  background: rgba(15, 23, 42, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0) scale(0.92);
+  -webkit-transform: translateZ(0) scale(0.92);
   transition: transform 0.4s ease,
-              filter 0.4s ease,
               opacity 0.4s ease,
               border-color 0.4s ease,
               box-shadow 0.4s ease;
   cursor: pointer;
   position: relative;
-  /* Estado embaçado padrão para os laterais */
-  filter: blur(4px);
-  opacity: 0.45;
-  transform: scale(0.92);
+  /* Destaque suave sem sobrecarregar a GPU do Safari com múltiplos blurs */
+  opacity: 0.55;
 }
 
 @media (min-width: 768px) {
@@ -2312,22 +2328,23 @@ a {
 
 /* Card central em foco / ativo */
 .testimonial-card.is-active {
-  filter: blur(0px) !important;
   opacity: 1 !important;
-  transform: scale(1.04) !important;
+  transform: translateZ(0) scale(1.02) !important;
+  -webkit-transform: translateZ(0) scale(1.02) !important;
   z-index: 2;
   border-color: rgba(93, 224, 230, 0.5);
-  box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(93, 224, 230, 0.2);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(93, 224, 230, 0.2);
 }
 
 .testimonial-card:hover {
-  filter: blur(0px);
   opacity: 0.95;
-  transform: scale(0.98);
+  transform: translateZ(0) scale(0.96);
+  -webkit-transform: translateZ(0) scale(0.96);
 }
 
 .testimonial-card.is-active:hover {
-  transform: scale(1.06) !important;
+  transform: translateZ(0) scale(1.04) !important;
+  -webkit-transform: translateZ(0) scale(1.04) !important;
   border-color: rgba(93, 224, 230, 0.7);
 }
 
@@ -2341,6 +2358,13 @@ a {
   align-items: center;
   justify-content: center;
   padding: 16px;
+}
+
+@media (max-width: 768px) {
+  .testimonial-image-wrapper {
+    height: 380px;
+    padding: 12px;
+  }
 }
 
 .testimonial-image-wrapper img {
@@ -2363,9 +2387,7 @@ a {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(7, 12, 25, 0.75);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: rgba(7, 12, 25, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2529,9 +2551,7 @@ a {
 .student-map-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(7, 12, 25, 0.7);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: rgba(7, 12, 25, 0.85);
   display: flex;
   align-items: center;
   justify-content: center;
